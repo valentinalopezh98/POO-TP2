@@ -1,0 +1,16 @@
+4.1 En cuanto a la cohesión el diagrama está bien, sin embargo teniendo en cuenta el  ocultamiento de la información, no sería correcto que los atributos
+INTERES_POR_INVERSION y PLAZO_DIAS_INVERSION de la clase Cuenta sean públicos ya que aunque no puedan ser modificados desde afuera (por ser final), es 
+importante tener un control sobre el acceso a esos valores. Además, la implementación podría llegar a cambiar y si esos atributos static final son públicos,
+otros códigos pueden depender de ellos directamente, lo cual al cambiar la implementación interna, podría romperse el código que los utiliza.
+Por otra parte, utilizar el índice de compra para recuperar la compra deseada de la lista de compras (dentro de la clase CuentaCredito), no es correcto ya que 
+rompe el encapsulamiento, debido a que le da un indicio al usuario de cómo está implementado. Además, si por alguna razón cambiase el índice de la compra 
+(por algún método de ordenamiento o por la eliminación de alguna compra, etc.) se perdería la referencia a la misma y causaría problemas en el funcionamiento 
+ya que podría estar modificando otras compras. 
+En el constructor de Usuario, no sería correcto pedir que se ingresen las cuentas como objetos ya creados, ya que de esta manera podrían manejarse por
+fuera de la clase Usuario.
+Por último, en cuanto a la implementación, mostrar por consola los resultados dentro de la clase Usuario no sería correcto.
+
+4.2 Para cumplir con los tres conceptos, el nuevo diseño tendrá todos los atributos privados y añadirá una clase Compra, la cual va a tener un número de 
+compra que la identifique y tendrá además métodos para calcular el recargo fijo y el control de los pagos que va realizando el usuario. Además todos los
+métodos que tengan que retornar mensajes al usuario lo harán por medio de un string y no por consola. Finalmente, la clase Usuario va a crear las instancias
+de Cuenta y CuentaCredito, según corresponda, en el constructor de Usuario.
