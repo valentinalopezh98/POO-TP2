@@ -33,13 +33,61 @@ public class Club {
         return true;
     }
 
-    public String reporteMensual(){
+    private int obtenerMes(Mes mes) {
+        int res;
+        switch (mes) {
+            case ENERO:
+                res = 1;
+                break;
+            case FEBRERO:
+                res = 2;
+                break;
+            case MARZO:
+                res = 3;
+                break;
+            case ABRIL:
+                res = 4;
+                break;
+            case MAYO:
+                res = 5;
+                break;
+            case JUNIO:
+                res = 6;
+                break;
+            case JULIO:
+                res = 7;
+                break;
+            case AGOSTO:
+                res = 8;
+                break;
+            case SEPTIEMBRE:
+                res = 9;
+                break;
+            case OCTUBRE:
+                res = 10;
+                break;
+            case NOVIEMBRE:
+                res = 11;
+                break;
+            case DICIEMBRE:
+                res = 12;
+                break;
+            default:
+                res = 0;
+                break;
+        }
+        return res;
+    }
+
+    public String reporteMensual(Mes mes){
+        int mesIndicado = obtenerMes(mes);
         String magentaColor = "\u001B[35m";
         String resetColor = "\u001B[0m";
-        String reporte = magentaColor + "SOCIOS INSCRIPTOS\n" + resetColor;
+        String reporte = magentaColor + "SOCIOS INSCRIPTOS EN EL MES DE " + mes + "\n" + resetColor;
+
         LocalDate actual = LocalDate.now();
         for (Socio socio : socios){
-            if (socio.getFechaInscripcion().getMonth().equals(actual.getMonth())){
+            if (socio.getFechaInscripcion().getMonthValue() == mesIndicado){
                 reporte += socio.getNombre() + " " + socio.getApellido() + " (" +
                         socio.getFechaInscripcion() + ")\n";
             }

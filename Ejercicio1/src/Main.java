@@ -1,4 +1,5 @@
 import ar.edu.unlu.poo.tp2.Club;
+import ar.edu.unlu.poo.tp2.Mes;
 import ar.edu.unlu.poo.tp2.TipoSuscripcion;
 
 public class Main {
@@ -19,7 +20,7 @@ public class Main {
         club.agregarSocio("Pedro", "Rodriguez", "Belgrano 234",
                 "pedro@gmail.com", "44309532", TipoSuscripcion.DESTACADA);
 
-        System.out.println(club.reporteMensual());
+        System.out.println(club.reporteMensual(Mes.SEPTIEMBRE));
         System.out.println(club.listadoActividades());
         System.out.println(club.listadoSocios());
     }
