@@ -10,22 +10,31 @@ public class Cuenta {
     private static final double INTERES_POR_INVERSION = 0.4;
     private static final double PLAZO_DIAS_INVERSION = 120;
     private LocalDate fechaInversion;
+    private boolean precancelarInversion;
 
     public Cuenta(double saldo, double limiteGiroDescubierto) {
         this.saldo = saldo;
         this.limiteGiroDescubierto = limiteGiroDescubierto;
-        this.giroDescubierto = 0;
-        this.saldoInvertido = 0;
-        this.fechaInversion = null;
+        giroDescubierto = 0;
+        saldoInvertido = 0;
+        fechaInversion = null;
+        precancelarInversion = false;
     }
 
     public boolean gastar(double monto) {
         boolean res = false;
         if ((saldo + (limiteGiroDescubierto-giroDescubierto)) >= monto) {
             if (saldo < monto) {
-                giroDescubierto += monto - saldo;
-                saldo = 0;
-            }else {
+                if(precancelarInversion){
+                    recuperarInversion();
+                    if (saldo < monto){
+                        giroDescubierto += monto - saldo;
+                        saldo = 0;
+                    } else {
+                        saldo -= monto;
+                    }
+                }
+            } else {
                 saldo -= monto;
             }
             res = true;
@@ -56,19 +65,42 @@ public class Cuenta {
         return false;
     }
 
-    public boolean recuperarInversion() {
-        if (fechaInversion.plusDays((long) PLAZO_DIAS_INVERSION).isEqual(LocalDate.now()) ||
-                fechaInversion.plusDays((long) PLAZO_DIAS_INVERSION).isBefore(LocalDate.now())){
+    public void recuperarInversion() {
+        if (fechaInversion.plusDays((long)PLAZO_DIAS_INVERSION).isEqual(LocalDate.now()) ||
+                fechaInversion.plusDays((long)PLAZO_DIAS_INVERSION).isBefore(LocalDate.now())){
             saldo += saldoInvertido + (saldoInvertido * INTERES_POR_INVERSION);
             saldoInvertido = 0;
-            return true;
+        } else if (fechaInversion.plusDays(30).isEqual(LocalDate.now()) ||
+                fechaInversion.plusDays(30).isBefore(LocalDate.now())){
+            saldo += saldoInvertido + (saldoInvertido * 0.05);
+            saldoInvertido = 0;
+        } else {
+            saldo += saldoInvertido;
+            saldoInvertido = 0;
         }
-        return false;
+
+    }
+
+    public void activarPrecancelarInversion(){
+        precancelarInversion = true;
+    }
+
+    public void desactivarPrecancelarInversion(){
+        precancelarInversion = false;
     }
 
     public double getInteresAGanar() {
-        if (fechaInversion != null)
-            return saldoInvertido * Cuenta.INTERES_POR_INVERSION;
+        if (fechaInversion != null){
+            if (fechaInversion.plusDays((long) PLAZO_DIAS_INVERSION).isEqual(LocalDate.now()) ||
+                    fechaInversion.plusDays((long) PLAZO_DIAS_INVERSION).isAfter(LocalDate.now())){
+                return saldoInvertido * INTERES_POR_INVERSION;
+            } else if(fechaInversion.plusDays(30).isEqual(LocalDate.now()) ||
+                    fechaInversion.plusDays(30).isAfter(LocalDate.now())){
+                return saldoInvertido * 0.05;
+            }
+
+        }
+
         return 0.0d;
     }
 
