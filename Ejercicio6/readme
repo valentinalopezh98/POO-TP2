@@ -1,0 +1,10 @@
+El diseño de la solución propuesta no respeta el concepto de ocultamiento y de  encapsulamiento ya que todos los atributos de clases son públicos y 
+podrían ser modificados desde afuera de la clase.
+Para obtener el listado de empleados ordenado por monto total de ventas, sería necesario que la estación de servicio tuviera un registro de todas sus 
+ventas, ya que de la manera que está planteado en el diseño sería necesario recorrer todos los clientes, luego todas las ventas que realizo cada cliente 
+y el empleado asociado a cada una de esas ventas. Por lo que ventas debería calcular el empleado con mayor cantidad de ventas y luego pasarle esa información 
+a Cliente, cuando no le corresponde esa responsabilidad. Ademas, podrian haber miles de clientes sin ventas asociadas. Teniendo en cuenta este cambio, ya no 
+sería necesario que cada cliente tuviera asocciada todas sus ventas, sino que cada venta podria tener asociado un cliente.
+Asimismo, para poder obtener listados de surtidores es necesario que la clase ModuloInforme conozca los surtidores que existen, ya que para el diseño planteado,
+arrastran esta responsabilidad tanto venta como cliente.
+Por otra parte el nombre de la clase ModuloInforme no representa un objeto especifico asi que podría cambiarse a Estacion de Servicio o similar.
