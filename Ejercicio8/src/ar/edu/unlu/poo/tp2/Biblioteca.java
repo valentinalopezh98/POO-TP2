@@ -101,7 +101,7 @@ public class Biblioteca {
     public int cantidadEjemplaresDisponibles(String titulo){
         for (Libro libro : libros){
             if (libro.getNombre().equals(titulo)){
-                return libro.cantEjemplaresPrestados();
+                return libro.cantEjemplaresDisponibles();
             }
         }
         return -1;
